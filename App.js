@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   Button,
   FlatList,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -27,6 +28,10 @@ export default function App() {
     }
   };
 
+  const handleDelete = (val) => {
+    setCourseGoals((prev) => prev.filter((go) => go.id !== val));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
@@ -43,7 +48,12 @@ export default function App() {
           data={courseGoals}
           renderItem={(itemData) => (
             <View style={styles.goalItem}>
-              <Text style={styles.goalText}>{itemData.item.text}</Text>
+              <Pressable
+                android_ripple={{ color: '#210644' }}
+                onPress={handleDelete.bind(this, itemData.item.id)}
+              >
+                <Text style={styles.goalText}>{itemData.item.text}</Text>
+              </Pressable>
             </View>
           )}
           keyExtractor={(item, index) => item.id}
@@ -89,7 +99,6 @@ const styles = StyleSheet.create({
     margin: 8,
     borderRadius: 6,
     backgroundColor: '#5e08cc',
-    padding: 8,
   },
-  goalText: { color: '#fff' },
+  goalText: { color: '#fff', padding: 8 },
 });
